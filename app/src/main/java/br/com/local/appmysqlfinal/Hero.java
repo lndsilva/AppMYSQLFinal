@@ -6,14 +6,19 @@ public class Hero {
     private int rating;
     private String teamaffiliation;
 
+    //Criando o construtor com parâmetros alt+insert
     public Hero(int id, String name, String realname, int rating, String teamaffiliation) {
         this.id = id;
         this.name = name;
         this.realname = realname;
         this.rating = rating;
         this.teamaffiliation = teamaffiliation;
+
+
+
     }
 
+    //Criando os getters and setters alt+insert
     public int getId() {
         return id;
     }

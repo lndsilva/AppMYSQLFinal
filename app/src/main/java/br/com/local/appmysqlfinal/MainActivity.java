@@ -70,16 +70,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (isUpdating) {
+                    //se verdadeiro executa o método update
                     updateHero();
                 } else {
+                    //se falso executa o método create
                     createHero();
                 }
 
             }
         });
-
+        //após o create ou update irá realizar a leitura dos registros no banco
         readHeroes();
     }
+
+    //Implementando os métodos - create, update e read
 
     private void createHero() {
         String name = editTextName.getText().toString().trim();
@@ -89,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         String team = spinnerTeam.getSelectedItem().toString();
 
+        //Verificando se o usuário deixou em branco
         if (TextUtils.isEmpty(name)) {
             editTextName.setError("Por favor entre com o nome");
             editTextName.requestFocus();
@@ -108,12 +113,14 @@ public class MainActivity extends AppCompatActivity {
         params.put("rating", String.valueOf(rating));
         params.put("teamaffiliation", team);
 
-        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CREATE_HERO, params, CODE_POST_REQUEST);
+        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CREATE_HERO,
+                params, CODE_POST_REQUEST);
         request.execute();
     }
 
     private void readHeroes() {
-        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_READ_HEROES, null, CODE_GET_REQUEST);
+        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_READ_HEROES,
+                null, CODE_GET_REQUEST);
         request.execute();
     }
 
@@ -147,7 +154,8 @@ public class MainActivity extends AppCompatActivity {
         params.put("teamaffiliation", team);
 
 
-        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_UPDATE_HERO, params, CODE_POST_REQUEST);
+        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_UPDATE_HERO,
+                params, CODE_POST_REQUEST);
         request.execute();
 
         buttonAddUpdate.setText("Adicionar");
@@ -161,7 +169,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void deleteHero(int id) {
-        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_DELETE_HERO + id, null, CODE_GET_REQUEST);
+        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_DELETE_HERO + id,
+                null, CODE_GET_REQUEST);
         request.execute();
     }
 
@@ -208,7 +217,8 @@ public class MainActivity extends AppCompatActivity {
             try {
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
-                    Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), object.getString("message"),
+                            Toast.LENGTH_SHORT).show();
                     refreshHeroList(object.getJSONArray("heroes"));
                 }
             } catch (JSONException e) {
@@ -243,7 +253,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = getLayoutInflater();
-            View listViewItem = inflater.inflate(R.layout.layout_hero_list, null, true);
+            View listViewItem = inflater.inflate(R.layout.layout_hero_list,
+                    null, true);
 
             TextView textViewName = listViewItem.findViewById(R.id.textViewName);
 
@@ -262,7 +273,9 @@ public class MainActivity extends AppCompatActivity {
                     editTextName.setText(hero.getName());
                     editTextRealname.setText(hero.getRealname());
                     ratingBar.setRating(hero.getRating());
-                    spinnerTeam.setSelection(((ArrayAdapter<String>) spinnerTeam.getAdapter()).getPosition(hero.getTeamaffiliation()));
+                    spinnerTeam.setSelection(((ArrayAdapter<String>)
+                            spinnerTeam.getAdapter())
+                            .getPosition(hero.getTeamaffiliation()));
                     buttonAddUpdate.setText("Alterar");
                 }
             });
@@ -271,16 +284,19 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    AlertDialog.Builder builder = new
+                            AlertDialog.Builder(MainActivity.this);
 
                     builder.setTitle("Apagar " + hero.getName())
                             .setMessage("Tem certeza que deseja exluir?")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            .setPositiveButton(android.R.string.yes,
+                                    new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     deleteHero(hero.getId());
                                 }
                             })
-                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            .setNegativeButton(android.R.string.no,
+                                    new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
 
                                 }

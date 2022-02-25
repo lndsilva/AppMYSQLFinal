@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">AppMYSQLFinal</string>
-    <array name="teams">
+      <array name="teams">
         <item>Avengers</item>
         <item>X-Men</item>
         <item>Justice League</item>
